@@ -36,34 +36,19 @@ const Home = () => {
     fetch();
   }, [withGenres, query]);
 
-  const SAMPLE_MOVIES = [
-    {
-      id: 1,
-      title: 'Inception',
-      year: 2010,
-      genres: ['Sci-Fi', 'Thriller'],
-      overview: 'A thief who steals corporate secrets through use of dream-sharing technology...',
-      poster: 'https://via.placeholder.com/300x450?text=Inception'
-    },
-    {
-      id: 2,
-      title: 'The Shawshank Redemption',
-      year: 1994,
-      genres: ['Drama'],
-      overview: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption...',
-      poster: 'https://via.placeholder.com/300x450?text=Shawshank'
-    },
-    // ...add more movies as needed...
-  ];
-
   return (
     <div className="home">
       <SearchBar />
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
+      
       <div className="grid">
         {movies.map((m) => (
-          <div className="card movie-card" key={m.id} onClick={() => setSelected(m)}>
+          <div 
+            className="card movie-card" 
+            key={m.id} 
+            onClick={() => setSelected(m)}
+          >
             <img src={getImageUrl(m.poster_path)} alt={m.title} />
             <div className="info">
               <h4>{m.title}</h4>
@@ -101,13 +86,27 @@ const Home = () => {
               gap: 16
             }}
           >
-            <img src={selected.poster} alt={selected.title} style={{ width: 200, borderRadius: 6 }} />
+            <img 
+              src={getImageUrl(selected.poster_path)} 
+              alt={selected.title} 
+              style={{ width: 200, borderRadius: 6 }} 
+            />
             <div>
-              <h2 style={{ marginTop: 0 }}>{selected.title} <small style={{ color: '#777' }}>({selected.year})</small></h2>
-              <p style={{ color: '#666' }}><strong>Genres:</strong> {selected.genres.join(', ')}</p>
+              <h2 style={{ marginTop: 0 }}>
+                {selected.title}{" "}
+                <small style={{ color: '#777' }}>
+                  ({selected.release_date?.slice(0,4)})
+                </small>
+              </h2>
+              <p style={{ color: '#666' }}>
+                <strong>Rating:</strong> ⭐ {selected.vote_average?.toFixed(1)}
+              </p>
               <p style={{ lineHeight: 1.5 }}>{selected.overview}</p>
               <div style={{ marginTop: 12 }}>
-                <button onClick={() => setSelected(null)} style={{ padding: '8px 12px', borderRadius: 6, cursor: 'pointer' }}>
+                <button 
+                  onClick={() => setSelected(null)} 
+                  style={{ padding: '8px 12px', borderRadius: 6, cursor: 'pointer' }}
+                >
                   Close
                 </button>
               </div>
