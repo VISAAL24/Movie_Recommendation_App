@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MovieRec Reference - Login</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial; background:#0a0a0a; color:#eaeaea; display:grid; place-items:center; min-height:100vh; }
+    .card { width:100%; max-width:560px; background:#111; border:1px solid #222; border-radius:14px; padding:1.5rem; box-shadow:0 6px 24px rgba(0,0,0,.35); }
+    .card h2 { margin-top:0; }
+    .form { display:grid; gap:.75rem; }
+    .form .group { display:grid; gap:.25rem; }
+    .form input { padding:.6rem .75rem; border-radius:8px; border:1px solid #333; background:#0f0f0f; color:#fff; }
+    .actions { margin-top:.5rem; display:flex; gap:.5rem; }
+    .btn { background:#1f1f1f; border:1px solid #333; color:#fff; padding:.6rem .9rem; border-radius:8px; cursor:pointer; }
+    .btn.primary { background:#646cff; border-color:#646cff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Login</h2>
+    <form class="form" onsubmit="event.preventDefault(); alert('This is a static reference form.')">
+      <div class="group">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" required />
+      </div>
+      <div class="group">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••" required />
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="submit">Sign In</button>
+        <button class="btn" type="button" onclick="location.href='signup.html'">Create Account</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
