@@ -79,6 +79,7 @@ export const PAGINATION = {
 
 // Local storage keys
 export const STORAGE_KEYS = {
+  USER: 'movie_user',
   FAVORITES: 'movie_favorites',
   WATCHLIST: 'movie_watchlist',
   RECENT_SEARCHES: 'recent_searches',
@@ -91,7 +92,12 @@ export const ERROR_MESSAGES = {
   API_ERROR: 'Unable to fetch data. Please try again later.',
   NOT_FOUND: 'Movie not found.',
   SEARCH_ERROR: 'Search failed. Please try again.',
-  GENERIC_ERROR: 'Something went wrong. Please try again.'
+  GENERIC_ERROR: 'Something went wrong. Please try again.',
+  REQUIRED_FIELD: 'This field is required.',
+  INVALID_EMAIL: 'Please enter a valid email address.',
+  PASSWORD_TOO_SHORT: 'Password must be at least 6 characters long.',
+  LOGIN_ERROR: 'Login failed. Please check your credentials.',
+  SIGNUP_ERROR: 'Signup failed. Please try again.'
 };
 
 // Success messages
@@ -99,7 +105,10 @@ export const SUCCESS_MESSAGES = {
   ADDED_TO_FAVORITES: 'Added to favorites!',
   REMOVED_FROM_FAVORITES: 'Removed from favorites!',
   ADDED_TO_WATCHLIST: 'Added to watchlist!',
-  REMOVED_FROM_WATCHLIST: 'Removed from watchlist!'
+  REMOVED_FROM_WATCHLIST: 'Removed from watchlist!',
+  LOGIN_SUCCESS: 'Login successful! Welcome back.',
+  SIGNUP_SUCCESS: 'Account created successfully! Welcome to MovieRec.',
+  LOGOUT_SUCCESS: 'Logged out successfully.'
 };
 
 // Animation durations (in milliseconds)
