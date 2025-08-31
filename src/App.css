@@ -35,13 +35,13 @@ html, body, #root { height: 100%; }
 /* Sidebar */
 .genre-sidebar h3 { margin: 0 0 0.5rem 0; }
 .genre-sidebar ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.25rem; }
-.genre-sidebar li { }
 .genre-sidebar label { display: flex; gap: 0.5rem; align-items: center; cursor: pointer; }
 .genre-sidebar .error { color: #ff6b6b; font-size: 0.9rem; }
 
 /* Home grid */
 .home .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-.movie-card { background: #111; border: 1px solid #222; border-radius: 10px; overflow: hidden; }
+.movie-card { background: #111; border: 1px solid #222; border-radius: 10px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+.movie-card:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(34, 40, 58, 0.18); z-index: 2; }
 .movie-card img { width: 100%; display: block; aspect-ratio: 2/3; object-fit: cover; }
 .movie-card .info { padding: 0.5rem; }
 .movie-card h4 { margin: 0.25rem 0; font-size: 1rem; }

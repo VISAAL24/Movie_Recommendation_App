@@ -9,7 +9,7 @@ const Index = () => {
         <h1>Discover your next favorite movie</h1>
         <p>Search, filter by genres, and explore details powered by TMDB.</p>
         <div className="actions">
-          <Link className="btn primary" to={ROUTES.DISCOVER}>Start Exploring</Link>
+          <Link className="btn primary" to="/home">Start Exploring</Link>
           <Link className="btn" to={ROUTES.LOGIN}>Sign In</Link>
         </div>
       </section>

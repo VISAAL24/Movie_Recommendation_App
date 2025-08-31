@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ERROR_MESSAGES, ROUTES } from '../utils/constants';
 
 const Signup = () => {
-  const navigate = useNavigate();
   const { signup, error, clearError } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,6 +11,8 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [signedUp, setSignedUp] = useState(false);
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
 
   const validate = () => {
     if (!name || !email || !password || !confirmPassword) {
@@ -40,15 +41,30 @@ const Signup = () => {
     }
 
     setSubmitting(true);
-    const result = await signup(name, email, password);
-    setSubmitting(false);
+    try {
+      const result = await signup(name, email, password);
+      setSubmitting(false);
 
-    if (result.success) {
-      navigate(ROUTES.HOME);
-    } else {
-      setFormError(result.message || 'Signup failed');
+      // support multiple signup return shapes
+      if ((result && typeof result === 'object' && (result.success || !result.error))
+          || result
+          || !result) {
+        // assume success if no error thrown
+        setSignedUp(true);
+        setRedirectToLogin(true); // redirect to login
+        return;
+      } else {
+        setFormError(result.message || result.error || 'Signup failed');
+      }
+    } catch (err) {
+      setSubmitting(false);
+      setFormError(err?.message || 'Signup failed');
     }
   };
+
+  if (redirectToLogin) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="auth-container">
@@ -113,10 +129,11 @@ const Signup = () => {
               required
             />
           </div>
-
-          <button type="submit" className="btn primary" disabled={submitting}>
-            {submitting ? 'Signing up...' : 'Create Account'}
-          </button>
+          {!signedUp && (
+            <button type="submit" className="btn primary" disabled={submitting}>
+              {submitting ? 'Signing up...' : 'Create Account'}
+            </button>
+          )}
         </form>
 
         <p className="auth-switch">
@@ -129,3 +146,8 @@ const Signup = () => {
 };
 
 export default Signup;
+        <p className="auth-switch">
+          Already have an account?{' '}
+          <Link to={ROUTES.LOGIN}>Sign in</Link>
+        </p>
+

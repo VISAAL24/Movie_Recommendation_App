@@ -1,4 +1,4 @@
-import { Routes, Route, Link, NavLink, useNavigate } from 'react-router-dom'
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import './App.css'
 import { ROUTES } from './utils/constants'
@@ -8,6 +8,7 @@ import { useAuth } from './context/AuthContext'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Index from './pages/Index'
+import IndexNew from './pages/IndexNew'
 import Home from './pages/Home'
 const MovieDetails = () => <div className="page"><h2>Movie Details</h2></div>
 
@@ -39,7 +40,6 @@ function Navbar() {
       <div className={navOpen ? 'nav-drawer open' : 'nav-drawer'}>
         <div className="nav-drawer-content">
           <NavLink to={ROUTES.HOME} onClick={closeNav}>Home</NavLink>
-          <NavLink to={ROUTES.DISCOVER} onClick={closeNav}>Discover</NavLink>
           {user ? (
             <button className="btn" onClick={handleLogout}>Logout</button>
           ) : (
@@ -76,14 +76,21 @@ function AppLayout({ children, showSidebar = true }) {
 function App() {
   return (
     <Routes>
+      {/* Ensure root path shows Index (index page) */}
+      <Route path="/" element={<AppLayout showSidebar={false}><Index /></AppLayout>} />
+
+      {/* existing routes */}
       <Route path={ROUTES.HOME} element={<AppLayout showSidebar={false}><Index /></AppLayout>} />
-      <Route path={ROUTES.DISCOVER} element={<AppLayout><Home /></AppLayout>} />
+      <Route path="/home" element={<AppLayout><Home /></AppLayout>} /> {/* use Home for Discover */}
       <Route path={ROUTES.LOGIN} element={<AppLayout showSidebar={false}><Login /></AppLayout>} />
       <Route path={ROUTES.SIGNUP} element={<AppLayout showSidebar={false}><Signup /></AppLayout>} />
       <Route path={ROUTES.MOVIE_DETAILS} element={<AppLayout><MovieDetails /></AppLayout>} />
+      <Route path="/index-new" element={<AppLayout showSidebar={false}><IndexNew /></AppLayout>} />
       <Route path="*" element={<AppLayout showSidebar={false}><Index /></AppLayout>} />
     </Routes>
   )
 }
 
 export default App
+
+

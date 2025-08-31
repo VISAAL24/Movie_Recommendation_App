@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ERROR_MESSAGES, ROUTES } from '../utils/constants';
 
@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [redirectToIndexNew, setRedirectToIndexNew] = useState(false);
 
   const validate = () => {
     if (!email || !password) {
@@ -39,11 +40,15 @@ const Login = () => {
     setSubmitting(false);
 
     if (result.success) {
-      navigate(ROUTES.HOME);
+      setRedirectToIndexNew(true); // redirect to new index page
     } else {
       setFormError(result.message || 'Login failed');
     }
   };
+
+  if (redirectToIndexNew) {
+    return <Navigate to="/index-new" replace />;
+  }
 
   return (
     <div className="auth-container">
