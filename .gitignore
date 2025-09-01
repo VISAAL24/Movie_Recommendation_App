@@ -7,20 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Node modules
-node_modules/
-Backend/node_modules/
-movie-rec-app/node_modules/
-
-# Build output
-dist/
-dist-ssr/
-movie-rec-app/build/
-
-# Environment files
+node_modules
+dist
+dist-ssr
 *.local
-Backend/.env
-movie-rec-app/.env
 
 # Editor directories and files
 .vscode/*
@@ -32,6 +22,3 @@ movie-rec-app/.env
 *.njsproj
 *.sln
 *.sw?
-
-# Optional: OS files
-Thumbs.db
