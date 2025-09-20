@@ -1,39 +1,33 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 require("dotenv").config();
-const fetch = require("node-fetch"); // If using Node <18, else built-in fetch works
+
+// Import routes
+const authRoutes = require("./routes/auth");
+const movieRoutes = require("./routes/movies");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Connect to MongoDB
+const uri = "mongodb+srv://visaal2405_db_user:VISAAL%232424@cluster0.rl8rpst.mongodb.net/Movie_Rec?retryWrites=true&w=majority";
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected!"))
+  .catch(err => console.log("Connection error:", err));
+
+// Set TMDB API key
+process.env.TMDB_API_KEY = "a3b7060f3865aa0905aa4142db2d3732";
+
+// Use routes
+app.use("/api/auth", authRoutes);
+app.use("/api/movies", movieRoutes);
+
 // Root route
 app.get("/", (req, res) => {
   res.send("Movie Recommendation App Backend is running!");
-});
-
-// Movies route: supports popular and search
-app.get("/api/movies", async (req, res) => {
-  try {
-    const { query, page = 1 } = req.query;
-    let url;
-
-    if (query) {
-      // Search movies
-      url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${page}`;
-    } else {
-      // Popular movies
-      url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`;
-    }
-
-    const response = await fetch(url);
-    const data = await response.json();
-    res.json(data);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch movies" });
-  }
 });
 
 const PORT = process.env.PORT || 5000;

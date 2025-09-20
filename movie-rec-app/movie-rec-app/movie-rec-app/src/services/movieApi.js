@@ -2,10 +2,10 @@ import axios from 'axios';
 import { MOCK_GENRES, MOCK_MOVIES } from './mockData';
 
 // TMDB API configuration
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY || 'your-tmdb-api-key-here';
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY || '';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
-const DEMO_MODE = !API_KEY || API_KEY === 'your-tmdb-api-key-here' || import.meta.env.VITE_USE_DEMO === 'true';
+const DEMO_MODE = !API_KEY || import.meta.env.VITE_USE_DEMO === 'true';
 
 // Create axios instance with default config
 const api = axios.create({

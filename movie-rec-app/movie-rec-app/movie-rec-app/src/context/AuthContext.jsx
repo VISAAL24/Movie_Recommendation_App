@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { STORAGE_KEYS, SUCCESS_MESSAGES, ERROR_MESSAGES } from '../utils/constants';
-import { authApi } from '../services/backendApi';
 
 const AuthContext = createContext();
 
@@ -17,33 +16,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Load user from localStorage on app start and verify token
+  // Load user from localStorage on app start
   useEffect(() => {
-    const initializeAuth = async () => {
-      const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
-      const savedToken = localStorage.getItem('authToken');
-      
-      if (savedUser && savedToken) {
-        try {
-          // Verify token with backend
-          const response = await authApi.verifyToken();
-          if (response.valid) {
-            setUser(JSON.parse(savedUser));
-          } else {
-            // Token invalid, clear storage
-            localStorage.removeItem(STORAGE_KEYS.USER);
-            localStorage.removeItem('authToken');
-          }
-        } catch (error) {
-          console.error('Token verification failed:', error);
-          localStorage.removeItem(STORAGE_KEYS.USER);
-          localStorage.removeItem('authToken');
-        }
+    const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Error parsing saved user:', error);
+        localStorage.removeItem(STORAGE_KEYS.USER);
       }
-      setLoading(false);
-    };
-
-    initializeAuth();
+    }
+    setLoading(false);
   }, []);
 
   // Save user to localStorage whenever user state changes
@@ -60,17 +44,17 @@ export const AuthProvider = ({ children }) => {
     setError('');
 
     try {
-      const response = await authApi.login(email, password);
-      
-      if (response.token && response.user) {
-        // Store token and user data
-        localStorage.setItem('authToken', response.token);
-        
+      // Simulate API call - replace with actual authentication
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // For demo purposes, accept any email/password combination
+      // In a real app, you would validate against a backend
+      if (email && password) {
         const userData = {
-          id: response.user.id,
-          email: response.user.email,
-          name: response.user.email.split('@')[0],
-          avatar: `https://ui-avatars.com/api/?name=${response.user.email.split('@')[0]}&background=random`,
+          id: Date.now(),
+          email,
+          name: email.split('@')[0],
+          avatar: `https://ui-avatars.com/api/?name=${email.split('@')[0]}&background=random`,
           createdAt: new Date().toISOString()
         };
 
@@ -78,10 +62,10 @@ export const AuthProvider = ({ children }) => {
         setError('');
         return { success: true, message: SUCCESS_MESSAGES.LOGIN_SUCCESS };
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error(ERROR_MESSAGES.LOGIN_ERROR);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.error || error.message || ERROR_MESSAGES.LOGIN_ERROR;
+      const errorMessage = error.message || ERROR_MESSAGES.LOGIN_ERROR;
       setError(errorMessage);
       return { success: false, message: errorMessage };
     } finally {
@@ -94,17 +78,17 @@ export const AuthProvider = ({ children }) => {
     setError('');
 
     try {
-      const response = await authApi.signup(email, password);
-      
-      if (response.token && response.user) {
-        // Store token and user data
-        localStorage.setItem('authToken', response.token);
-        
+      // Simulate API call - replace with actual registration
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // For demo purposes, accept any valid input
+      // In a real app, you would validate against a backend
+      if (name && email && password) {
         const userData = {
-          id: response.user.id,
-          email: response.user.email,
-          name: name || response.user.email.split('@')[0],
-          avatar: `https://ui-avatars.com/api/?name=${name || response.user.email.split('@')[0]}&background=random`,
+          id: Date.now(),
+          email,
+          name,
+          avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
           createdAt: new Date().toISOString()
         };
 
@@ -112,10 +96,10 @@ export const AuthProvider = ({ children }) => {
         setError('');
         return { success: true, message: SUCCESS_MESSAGES.SIGNUP_SUCCESS };
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error(ERROR_MESSAGES.SIGNUP_ERROR);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.error || error.message || ERROR_MESSAGES.SIGNUP_ERROR;
+      const errorMessage = error.message || ERROR_MESSAGES.SIGNUP_ERROR;
       setError(errorMessage);
       return { success: false, message: errorMessage };
     } finally {
