@@ -90,6 +90,9 @@ const Home = () => {
               src={getImageUrl(selected.poster_path)} 
               alt={selected.title} 
               style={{ width: 200, borderRadius: 6 }} 
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/200x300/cccccc/666666?text=No+Image';
+              }}
             />
             <div>
               <h2 style={{ marginTop: 0 }}>
